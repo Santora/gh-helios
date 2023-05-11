@@ -34,17 +34,6 @@ const showToast = () => {
     addToast({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 });
 }
 </script>
-  
-<!-- <script>
-export default {
-    name: 'Home',
-    components: { UnderConstruction, Toast },
-    setup() {
-        return { warehouses, showToast };
-    }
-}
-</script> -->
-  
 
 <style >
 #app {
@@ -54,6 +43,10 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+}
+
+body{
+    background-color: black;
 }
 
 .wrapper {

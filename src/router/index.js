@@ -1,63 +1,43 @@
-
-
-import { createWebHistory, createRouter } from "vue-router"
-import About from '@/views/About.vue'
-import PageNotFound from '@/views/PageNotFound.vue'
-import Home from '@/views/Home.vue'
-import WarehouseDetail from '@/views/WarehouseDetail.vue'
-import UnderConstruction from '@/views/UnderConstruction.vue'
-import Antes from '@/views/Antes.vue'
-
-const routes = [
-  {
-    path: "/gh-helios/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: '/gh-helios/about',
-    name: "About",
-    component: About,
-  },
-  {
-    path: '/:catchAll(.*)*',
-    name: "PageNotFound",
-    component: PageNotFound,
-  },
-  {
-  path: '/gh-helios/warehouse/:code',
-  name: "WarehouseDetail",
-  component: WarehouseDetail,
-  // children: [
-  //   {
-  //     path: 'destinations',
-  //     name: 'AirportDestinations',
-  //     component: AirportDestinations
-  //   }
-  // ]
-  },
-  {
-    path: '/gh-helios/warehouse/Antes',
-    name: "Antes",
-    component: Antes //() => import('../views/Antes.vue')
-  },
-  {
-    path: '/gh-helios/warehouse/Helios',
-    name: "Helios",
-    component: () => import('@/views/Helios.vue')
-  },
-  {
-    path: '/gh-helios/warehouse/Kedit',
-    name: "Kedit",
-    component:  () => import('@/views/Kedit.vue')
-  }
-]
-
-
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/antes',
+      name: 'antes',
+      component: () => import('../views/AntesView.vue')
+    },
+    {
+      path: '/helios',
+      name: 'helios',
+      component: () => import('../views/HeliosView.vue')
+    },
+    {
+      path: '/kedit',
+      name: 'kedit',
+      component: () => import('../views/KeditView.vue')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('../views/TestView.vue')
+    }
+  ]
 })
 
 export default router

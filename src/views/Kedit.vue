@@ -8,9 +8,9 @@ html {
     font-size: 14px;
 }
 
-#app {
+/* #app {
     max-width: max-content;
-}
+} */
 
 body {
     font-family: var(--font-family);
@@ -24,15 +24,11 @@ body {
 
 .card {
     background: var(--surface-card);
-    padding: 2rem;
-    border-radius: 10px;
-    margin-bottom: .1rem;
-}
-
-.card {
-    /* margin-top: .1px;
+    /* padding: 2rem;
+    border-radius: 10px; */
+    margin-top: .1px;
     max-width: .1px; 
-    margin-bottom: .1px; */
+    margin-bottom: .1px;
     padding: 1px;
 }
 
