@@ -1,0 +1,1 @@
+import{_ as e,o as s,c as o,a as _}from"./index-00a3dfff.js";const t={},c={class:"helios"},n=_("h1",null,"This is an helios page",-1),a=[n];function i(l,r){return s(),o("div",c,a)}const h=e(t,[["render",i]]);export{h as default};
