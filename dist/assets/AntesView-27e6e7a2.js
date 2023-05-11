@@ -1,0 +1,1 @@
+import{_ as e,o as s,c as t,a as n}from"./index-00a3dfff.js";const _={},c={class:"antes card"},a=n("h1",null,"This is an antes page",-1),o=[a];function r(i,d){return s(),t("div",c,o)}const f=e(_,[["render",r]]);export{f as default};
