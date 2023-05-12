@@ -93,6 +93,8 @@ datatable {
         </DataTable>
         <!-- <Button @click="AddRow">Add row</Button> -->
         <Toast/>
+        <Toast position="bottom-right" group="br" />
+        <Toast position="top-right" group="tr" />
     </div>
 </template>
 
@@ -101,9 +103,7 @@ import { ref, onMounted, onBeforeMount } from 'vue';
 import { RouterLink } from 'vue-router';
 import { KeditService } from '../service/KeditService';
 import { useToast } from 'primevue/usetoast';
-import Button from 'primevue/button'
 import Toast from 'primevue/toast'
-import Toolbar from 'primevue/toolbar'
 import "primeflex/primeflex.css";
 import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
@@ -123,18 +123,21 @@ onMounted(() => {
     if (element) {
         const el = document.getElementById("table");
         element.remove();
+        if(!element)
+        {
+            console.log(('element table removed'))
+        }
         console.log(rect.bottom, rect.left, rect.right, rect.top)
         // move(el, "up", 100);
         // move(el, "left", rect.right, "5s");
     }
     console.log('Mounted');
     console.log(products);
-    toast.add({ severity: 'success', summary: 'Mounted', life: 5000 })
+    toast.add({ severity: 'success', summary: 'Mounted', life: 5000 , group:'br'})
 });
 onBeforeMount(() => {
     console.log('Before mount')
 })
-// const toast = useToast();
 const products = ref();
 const onColReorder = () => {
     console.log('Column reordered')
