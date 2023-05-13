@@ -52,7 +52,7 @@ git push -u origin main
 
 ```sh
 npm run build
-git add dist -force
+git add dist -f
 git commit -m 'adding dist subtree'
 git subtree push --prefix dist origin gh-pages
 

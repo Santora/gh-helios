@@ -1,4 +1,5 @@
 import './assets/main.css'
+import 'primeicons/primeicons.css';
 import router from './router'
 import { createApp } from "vue";
 // import { createLogger } from 'vue-logger-plugin'
@@ -47,7 +48,7 @@ import DataTable from 'primevue/datatable';
 // import InlineMessage from 'primevue/inlinemessage';
 // import Inplace from 'primevue/inplace';
 // import InputSwitch from 'primevue/inputswitch';
-// import InputText from 'primevue/inputtext';
+import InputText from 'primevue/inputtext';
 // import InputMask from 'primevue/inputmask';
 // import InputNumber from 'primevue/inputnumber';
 // import Knob from 'primevue/knob';
@@ -158,7 +159,7 @@ app.component('DataTable', DataTable);
 // app.component('InputMask', InputMask);
 // app.component('InputNumber', InputNumber);
 // app.component('InputSwitch', InputSwitch);
-// app.component('InputText', InputText);
+app.component('InputText', InputText);
 // app.component('Knob', Knob);
 // app.component('Listbox', Listbox);
 // app.component('MegaMenu', MegaMenu);

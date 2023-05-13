@@ -1,5 +1,4 @@
 <style>
-
 .dataTable:nth-child(odd) {
     background-color: aquamarine;
 }
@@ -41,7 +40,7 @@ datatable {
     top: 0px;
     left: 0px;
     justify-content: start;
-    
+
 }
 
 
@@ -67,64 +66,229 @@ datatable {
                     <Button label="Export" icon="pi pi-upload" severity="help" @click="exportCSV($event)"  />
                 </template>
             </Toolbar> -->
-        <DataTable id="dataTable" class="dataTable p-datatable-sm" :flex="true" :showGridlines="true" scrollable scrollHeight="700px"
-            :value=products :reorderableColumns="true" @columnReorder="onColReorder" resizableColumns
+        <!-- <DataTable id="dataTable" class="dataTable p-datatable-sm" :flex="true" :showGridlines="true" scrollable:true
+            scrollHeight="700px" :value=products :reorderableColumns="true" @columnReorder="onColReorder" resizableColumns
             columnResizeMode="expand" tableStyle="min-width: +50rem" paginator :rows="50"
             :rowsPerPageOptions="[5, 10, 20, 50, 100, 500]" stateStorage="session" stateKey="dt-state-demo-session"
-            removableSort>
+            removableSort stripedRows rowHover @value-change="onValueChange" v-model:filters="filters"
+            :globalFilterFields="['type', 'code', 'productId']">
+            <template #header>
+                <div class="flex justify-content-start">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search" />
+                        <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                    </span>
+                </div>
+            </template>
+            <template #empty> Nenalezeno. </template>
+            <template #loading> Loading data. Please wait. </template>
+
             <Column field="type" header="Typ" sortable></Column>
-            <Column field="purchaseDate" header="Nákup" sortable></Column>
-            <Column field="code" header="Kód" sortable></Column>
-            <Column field="purity" header="Ryzost" sortable></Column>
-            <Column field="purchasePrice" header="Nákup" sortable></Column>
-            <Column field="weight" header="Váha" sortable></Column>
-            <Column field="salePrice" header="Prodej" sortable></Column>
-            <Column field="saleDate" header="Prodej" sortable></Column>
-            <Column field="saleOnePiece" header="1 kus" sortable></Column>
-            <Column field="noteComplaint" header="Pozn." sortable></Column>
-            <Column field="inventoryDate" header="Inv." sortable></Column>
-            <Column field="productId" header="ID" sortable></Column>
-            <Column field="note" header="Pozn." sortable></Column>
-            <Column field="alterPrice" header="Alt. cena" sortable></Column>
-            <Column field="dimension" header="Rozměr" sortable></Column>
-            <Column field="supplierId" header="Dodavatel" sortable></Column>
-            <Column field="customerId" header="Zákazník" sortable></Column>
-            <template #footer>  Celkem {{ products ? products.length : 0 }} výrobků. </template>
-        </DataTable>
+            <template #body="{ products }">
+                {{ products.type }}
+            </template>
+            <template #filter="{ filterModel, filterCallback }">
+                <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                    placeholder="Search by name" />
+            </template>
+            <Column field="purchaseDate" header="Nákup" sortable>
+                <template #body="{ products }">
+                    {{ products.purchaseDate }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="code" header="Kód" sortable>
+                <template #body="{ products }">
+                    {{ products.code }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="purity" header="Ryzost" sortable>
+                <template #body="{ products }">
+                    {{ products.purity }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="purchasePrice" header="Nákup" sortable>
+                <template #body="{ products }">
+                    {{ products.purchasePrice }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="weight" header="Váha" sortable>
+                <template #body="{ products }">
+                    {{ products.weight }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="salePrice" header="Prodej" sortable>
+                <template #body="{ products }">
+                    {{ products.salePrice }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="saleDate" header="Prodej" sortable>
+                <template #body="{ products }">
+                    {{ products.saleDate }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="saleOnePiece" header="1 kus" sortable>
+                <template #body="{ products }">
+                    {{ products.saleOnePiece }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="noteComplaint" header="Pozn." sortable>
+                <template #body="{ products }">
+                    {{ products.noteComplaint }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="inventoryDate" header="Inv." sortable>
+                <template #body="{ products }">
+                    {{ products.inventoryDate }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="productId" header="ID" sortable>
+                <template #body="{ products }">
+                    {{ products.productId }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="note" header="Pozn." sortable>
+                <template #body="{ products }">
+                    {{ products.note }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="alterPrice" header="Alt. cena" sortable>
+                <template #body="{ products }">
+                    {{ products.alterPrice }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="dimension" header="Rozměr" sortable>
+                <template #body="{ products }">
+                    {{ products.dimension }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="supplierId" header="Dodavatel" sortable>
+                <template #body="{ products }">
+                    {{ products.supplierId }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <Column field="customerId" header="Zákazník" sortable>
+                <template #body="{ products }">
+                    {{ products.customerId }}
+                </template>
+                <template #filter="{ filterModel, filterCallback }">
+                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
+                        placeholder="Search by name" />
+                </template>
+            </Column>
+            <template #footer> Celkem {{ products ? products.length : 0 }} výrobků. </template>
+        </DataTable> -->
         <!-- <Button @click="AddRow">Add row</Button> -->
-        <Toast/>
+        <Toast />
         <Toast position="bottom-right" group="br" />
         <Toast position="top-right" group="tr" />
     </div>
 </template>
 
-<script setup>
+<script setup allowJS>
 import { ref, onMounted, onBeforeMount } from 'vue';
 import { RouterLink } from 'vue-router';
 import { KeditService } from '../service/KeditService';
 import { useToast } from 'primevue/usetoast';
-import Toast from 'primevue/toast'
+import 'primeicons/primeicons.css';
+// import Toast from 'primevue/toast'
+// import InputText from 'primevue/inputtext'
+import { FilterMatchMode } from 'primevue/api';
 import "primeflex/primeflex.css";
 import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 // import "@/index.css";
 // import "@/flags.css";
+const filters = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    type: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    code: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    productId: { value: null, matchMode: FilterMatchMode.IN }
+});
 function AddRow() {
-  const newRow = { productId: dataTable.products.length + 1, type: 'XXX', code: 10 };
-  dataTable.products.push(newRow);
+    const newRow = { productId: dataTable.products.length + 1, type: 'XXX', code: 10 };
+    dataTable.products.push(newRow);
 }
-
+function onValueChange() {
+    toast.add({ severity: 'success', summary: 'Table changed', life: 3000, group: 'br' })
+};
+function setPurchaseDate(item) {
+    debugger
+    item.purchaseDate = new Date(item.purchaseDate)
+};
 onMounted(() => {
     console.log('starting mount')
     KeditService.getKeditRaw().then((data) => (products.value = data));
+    
+    // products.foreach(setPurchaseDate)
+
+    console.log(products)
     const element = document.getElementById("test") || null;
-    var rect = element.getBoundingClientRect();
     if (element) {
+        var rect = element.getBoundingClientRect();
         const el = document.getElementById("table");
         element.remove();
-        if(!element)
-        {
+        if (!element) {
             console.log(('element table removed'))
         }
         console.log(rect.bottom, rect.left, rect.right, rect.top)
@@ -133,7 +297,7 @@ onMounted(() => {
     }
     console.log('Mounted');
     console.log(products);
-    toast.add({ severity: 'success', summary: 'Mounted', life: 5000 , group:'br'})
+    toast.add({ severity: 'success', summary: 'Mounted', life: 5000, group: 'br' })
 });
 onBeforeMount(() => {
     console.log('Before mount')
