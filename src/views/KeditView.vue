@@ -1,5 +1,5 @@
 <style>
-.dataTable:nth-child(odd) {
+.DataTable:nth-child(odd) {
     background-color: aquamarine;
 }
 
@@ -35,7 +35,7 @@ body {
 
 } */
 
-datatable {
+DataTable {
     width: 100%;
     top: 0px;
     left: 0px;
@@ -66,177 +66,194 @@ datatable {
                     <Button label="Export" icon="pi pi-upload" severity="help" @click="exportCSV($event)"  />
                 </template>
             </Toolbar> -->
-        <!-- <DataTable id="dataTable" class="dataTable p-datatable-sm" :flex="true" :showGridlines="true" scrollable:true
-            scrollHeight="700px" :value=products :reorderableColumns="true" @columnReorder="onColReorder" resizableColumns
-            columnResizeMode="expand" tableStyle="min-width: +50rem" paginator :rows="50"
-            :rowsPerPageOptions="[5, 10, 20, 50, 100, 500]" stateStorage="session" stateKey="dt-state-demo-session"
-            removableSort stripedRows rowHover @value-change="onValueChange" v-model:filters="filters"
-            :globalFilterFields="['type', 'code', 'productId']">
+        <DataTable id="DataTable" class="dataTable p-datatable-sm" :flex="true" :showGridlines="true" 
+            scrollable
+            editMode="cell" tableClass="editable-cells-table" 
+            scrollHeight="700px" :value=products
+            :reorderableColumns="true" @columnReorder="onColReorder" 
+            resizableColumns columnResizeMode="expand"
+            tableStyle="min-width: +50rem" 
+            paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50, 100, 500]"
+            stateStorage="session" statekey="dt-state-demo-session" removableSort stripedRows rowHover
+            @value-change="onValueChange" v-model:filters="filters" :globalFilterFields="['type', 'code', 'productid']"
+            :customSort="sort" @sort="sort" >
             <template #header>
                 <div class="flex justify-content-start">
                     <span class="p-input-icon-left">
                         <i class="pi pi-search" />
-                        <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                        <InputText v-model="filters['global'].value" placeholder="keyword search" />
                     </span>
                 </div>
             </template>
-            <template #empty> Nenalezeno. </template>
-            <template #loading> Loading data. Please wait. </template>
-
+            <template #empty> nenalezeno. </template>
+            <template #loading> loading data. please wait. </template>
+            <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" style="width: 25%">
+                <template #body="{ data, field }">
+                    {{ field === 'price' ? formatCurrency(data[field]) : data[field] }}
+                </template>
+                <template #editor="{ data, field }">
+                    <template v-if="field !== 'price'">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                    <template v-else>
+                        <InputNumber v-model="data[field]" mode="currency" currency="USD" locale="en-US" autofocus />
+                    </template>
+                </template>
+            </Column>
             <Column field="type" header="Typ" sortable></Column>
             <template #body="{ products }">
                 {{ products.type }}
             </template>
-            <template #filter="{ filterModel, filterCallback }">
-                <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                    placeholder="Search by name" />
+            <template #filter="{ filtermodel, filtercallback }">
+                <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-column-filter"
+                    placeholder="search by name" />
             </template>
             <Column field="purchaseDate" header="Nákup" sortable>
-                <template #body="{ products }">
-                    {{ products.purchaseDate }}
+                <!-- <template #body="{ products }">
+                    {{ products.purchasedate }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="date" @input="filtercallback()" class="p-column-filter"
+                        placeholder="search by date" />
+                </template> -->
             </Column>
             <Column field="code" header="Kód" sortable>
-                <template #body="{ products }">
+                <!-- <template #body="{ products }">
                     {{ products.code }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
             <Column field="purity" header="Ryzost" sortable>
-                <template #body="{ products }">
+                <!-- <template #body="{ products }">
                     {{ products.purity }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="purchasePrice" header="Nákup" sortable>
-                <template #body="{ products }">
-                    {{ products.purchasePrice }}
+            <Column field="purchaseprice" header="Nákup" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.purchaseprice }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
             <Column field="weight" header="Váha" sortable>
-                <template #body="{ products }">
+                <!-- <template #body="{ products }">
                     {{ products.weight }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="salePrice" header="Prodej" sortable>
-                <template #body="{ products }">
-                    {{ products.salePrice }}
+            <Column field="saleprice" header="Prodej" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.saleprice }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="saleDate" header="Prodej" sortable>
-                <template #body="{ products }">
-                    {{ products.saleDate }}
+            <Column field="saledate" header="Prodej" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.saledate }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="saleOnePiece" header="1 kus" sortable>
-                <template #body="{ products }">
-                    {{ products.saleOnePiece }}
+            <Column field="saleonepiece" header="1 kus" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.saleonepiece }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="noteComplaint" header="Pozn." sortable>
-                <template #body="{ products }">
-                    {{ products.noteComplaint }}
+            <Column field="notecomplaint" header="Pozn." sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.notecomplaint }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="inventoryDate" header="Inv." sortable>
-                <template #body="{ products }">
-                    {{ products.inventoryDate }}
+            <Column field="inventorydate" header="Inv." sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.inventorydate }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="productId" header="ID" sortable>
-                <template #body="{ products }">
-                    {{ products.productId }}
+            <Column field="productid" header="Id" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.productid }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
             <Column field="note" header="Pozn." sortable>
-                <template #body="{ products }">
+                <!-- <template #body="{ products }">
                     {{ products.note }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="alterPrice" header="Alt. cena" sortable>
-                <template #body="{ products }">
-                    {{ products.alterPrice }}
+            <Column field="alterprice" header="Alt. cena" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.alterprice }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
             <Column field="dimension" header="Rozměr" sortable>
-                <template #body="{ products }">
+                <!-- <template #body="{ products }">
                     {{ products.dimension }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="supplierId" header="Dodavatel" sortable>
-                <template #body="{ products }">
-                    {{ products.supplierId }}
+            <Column field="supplierid" header="Dodavatel" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.supplierid }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <Column field="customerId" header="Zákazník" sortable>
-                <template #body="{ products }">
-                    {{ products.customerId }}
+            <Column field="customerid" header="Zákazník" sortable>
+                <!-- <template #body="{ products }">
+                    {{ products.customerid }}
                 </template>
-                <template #filter="{ filterModel, filterCallback }">
-                    <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter"
-                        placeholder="Search by name" />
-                </template>
+                <template #filter="{ filtermodel, filtercallback }">
+                    <InputText v-model="filtermodel.value" type="text" @input="filtercallback()" class="p-Column-filter"
+                        placeholder="search by name" />
+                </template> -->
             </Column>
-            <template #footer> Celkem {{ products ? products.length : 0 }} výrobků. </template>
-        </DataTable> -->
+            <template #footer> celkem {{ products ? products.length : 0 }} výrobků. </template>
+        </DataTable>
         <!-- <Button @click="AddRow">Add row</Button> -->
         <Toast />
         <Toast position="bottom-right" group="br" />
@@ -244,45 +261,85 @@ datatable {
     </div>
 </template>
 
-<script setup allowJS>
+<script setup>
 import { ref, onMounted, onBeforeMount } from 'vue';
 import { RouterLink } from 'vue-router';
 import { KeditService } from '../service/KeditService';
 import { useToast } from 'primevue/usetoast';
 import 'primeicons/primeicons.css';
 // import Toast from 'primevue/toast'
-// import InputText from 'primevue/inputtext'
+// import InputText from 'primevue/InputText'
 import { FilterMatchMode } from 'primevue/api';
+// import   InputNumber  from 'primevue/inputnumber'
 import "primeflex/primeflex.css";
 import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 // import "@/index.css";
 // import "@/flags.css";
+const loading = ref();
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    purchaseDate: { value: null, matchMode: FilterMatchMode.DATE_IS },
     type: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     code: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    productId: { value: null, matchMode: FilterMatchMode.IN }
+    productId: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 function AddRow() {
-    const newRow = { productId: dataTable.products.length + 1, type: 'XXX', code: 10 };
-    dataTable.products.push(newRow);
+    const newRow = { productId: DataTable.products.length + 1, type: 'XXX', code: 10 };
+    DataTable.products.push(newRow);
 }
 function onValueChange() {
     toast.add({ severity: 'success', summary: 'Table changed', life: 3000, group: 'br' })
 };
-function setPurchaseDate(item) {
-    debugger
-    item.purchaseDate = new Date(item.purchaseDate)
+
+function sort(items) {
+    console.log('custom sort');
+    console.log(items);
+    console.log(items.sortField);
+    //return items.sort();
+}
+function beforeSort(items) {
+    console.log('custom sort before');
+    console.log(items);
+    console.log(items.sortField);
+    //return items.sort();
+}
+function afterSort(items) {
+    console.log('custom sort after');
+    console.log(items);
+    console.log(items.sortField);
+    //return items.sort();
+}
+const getProducts = (data) => {
+    return [...(data || [])].map((d) => {
+        // // // d.purchasedate = '2000-01-01';
+        // // // console.log('date - ', d.purchasedate);
+        // // //return d;
+        try {
+            var dateString = d.purchaseDate;
+            var dateArray = dateString.split(".");
+            var c = dateArray[2].concat("-", dateArray[1]).concat("-", dateArray[0]);
+            console.log('id-', d.id, ' date - ', c);
+            d.purchaseDate = c;//new Date(c).toLocaleDateString();
+        }
+        catch (err) {
+            console.log('date error', err);
+        }
+
+        return d;
+    });
 };
 onMounted(() => {
-    console.log('starting mount')
-    KeditService.getKeditRaw().then((data) => (products.value = data));
-    
-    // products.foreach(setPurchaseDate)
+    console.log('starting mount');
+    KeditService.getKeditRaw().then((data) => {
+        products.value = getProducts(data);
+        loading.value = false;
+    });
 
-    console.log(products)
+    // products.foreach(setpurchaseDate)
+
+    console.table(products)
     const element = document.getElementById("test") || null;
     if (element) {
         var rect = element.getBoundingClientRect();
@@ -299,57 +356,24 @@ onMounted(() => {
     console.log(products);
     toast.add({ severity: 'success', summary: 'Mounted', life: 5000, group: 'br' })
 });
+
 onBeforeMount(() => {
     console.log('Before mount')
 })
 const products = ref();
+
 const onColReorder = () => {
     console.log('Column reordered')
     toast.add({ severity: 'success', summary: 'Column Reordered', life: 3000 });
 };
 const toast = useToast();
-const exportCSV = () => {
-    dataTable.value.exportCSV();
-};
-const value = ref(null);
-const options = ref([
-    { name: 'Antes', value: 1 },
-    { name: 'Helios', value: 2 },
-    { name: 'Kedit', value: 3 }
-]);
-function move(element, direction, distance, duration = "1s") {
-    console.log('move fired')
-    console.log(element, direction, distance, duration)
-    var elId = element.id;
-    if (!elId) { throw ("Cannot move an element without an ID!"); }
-    var elStyleSheet = document.getElementById(elId + "-movement");
-    if (!elStyleSheet) {
-        elStyleSheet = document.createElement("style");
-        elStyleSheet.id = elId + "-movement";
-        document.head.appendChild(elStyleSheet);
-        console.log('style added', elStyleSheet)
-    }
-    var topOrLeft = (direction == "left" || direction == "right") ? "left" : "top";
-    if (direction == "up" || direction == "left") { distance *= -1; }
 
-    var elStyle = window.getComputedStyle(element);
-    var value = elStyle.getPropertyValue(topOrLeft).replace("px", "");
-    var destination = (Number(value) + distance) + "px";
-    var oldLoc = [elStyle.getPropertyValue("left"), elStyle.getPropertyValue("top")];
-    var newLoc = (topOrLeft == "left") ? [destination, oldLoc[1]] : [oldLoc[0], destination];
-    elStyleSheet.innerHTML = elStyleSheet.innerHTML.replace(/\s+\#(.|\n)*?\}\s+\n/, "");
-    elStyleSheet.innerHTML += `
-       #` + elId + `.moved
-       {
-          transition: all ` + duration + ` linear;
-          -webkit-transition: all ` + duration + ` linear;
-          -moz-transition: all ` + duration + ` linear;
-          -o-transition: all ` + duration + ` linear;
-          top: ` + newLoc[1] + `;
-          left: ` + newLoc[0] + `;
-       }
-    `;
-    element.classList.add("moved");
-}
+const columns=ref(
+    { field: 'code', header: 'Code' },
+    { field: 'purchase Date', header: 'Nakup' },
+    { field: 'type', header: 'Typ' });
+
+
+
 </script>
 
